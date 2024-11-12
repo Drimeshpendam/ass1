@@ -1,0 +1,491 @@
+1. Write an Android application which will print “Hello World” on the AVD
+MainActivity.java
+
+java
+Copy code
+package com.example.helloworldapp;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TextView textView = new TextView(this);
+        textView.setText("Hello World");
+        setContentView(textView);
+    }
+}
+Explanation: This simple app creates a TextView programmatically and sets the text to "Hello World".
+
+2. Write an android application that will accept two numbers from the users and will print the addition as output in TextView and Toast.
+activity_main.xml
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/firstNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter first number" />
+
+    <EditText
+        android:id="@+id/secondNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter second number" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result: "
+        android:textSize="18sp" />
+</LinearLayout>
+MainActivity.java
+
+java
+Copy code
+package com.example.additionapp;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final EditText firstNumber = findViewById(R.id.firstNumber);
+        final EditText secondNumber = findViewById(R.id.secondNumber);
+        final TextView resultTextView = findViewById(R.id.resultTextView);
+        Button addButton = findViewById(R.id.addButton);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num1 = Integer.parseInt(firstNumber.getText().toString());
+                int num2 = Integer.parseInt(secondNumber.getText().toString());
+                int sum = num1 + num2;
+                
+                resultTextView.setText("Result: " + sum);
+                Toast.makeText(MainActivity.this, "Sum is: " + sum, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+Explanation: This app takes two numbers from the user, adds them together when the "Add" button is clicked, and displays the result in both a TextView and a Toast.
+
+3. Write an android application that will demonstrate an Android Activity Life Cycle and print output in the logcat.
+MainActivity.java
+
+java
+Copy code
+package com.example.activitylifecycle;
+
+import android.os.Bundle;
+import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "ActivityLifecycle";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate called");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy called");
+    }
+}
+Explanation: This app logs the activity lifecycle methods (onCreate, onStart, onResume, onPause, onStop, onDestroy) to the logcat. You can monitor the lifecycle events using the Log.d() method.
+
+4. Write an android application that will display components in GridLayout.
+activity_main.xml
+
+xml
+Copy code
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="3"
+    android:padding="16dp">
+
+    <Button
+        android:text="Button 1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Button 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Button 3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Button 4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Button 5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</GridLayout>
+Explanation: This layout uses GridLayout to organize Button components in a grid with 3 columns. Each Button is placed within the grid in a sequential order.
+
+5. Write an android application that will display components in TableLayout.
+activity_main.xml
+
+xml
+Copy code
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TableRow>
+        <Button
+            android:text="Button 1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:text="Button 2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:text="Button 3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+</TableLayout>
+Explanation: The TableLayout organizes Button components in rows. Each row is contained within a TableRow.
+
+6. Write an android application which will change the background color of an activity on switching the state of the ToggleButton.
+activity_main.xml
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="Dark Mode"
+        android:textOff="Light Mode" />
+</LinearLayout>
+MainActivity.java
+
+java
+Copy code
+package com.example.togglebackground;
+
+import android.os.Bundle;
+import android.widget.ToggleButton;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
+
+        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(android.R.color.black));
+            } else {
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(android.R.color.white));
+            }
+        });
+    }
+}
+Explanation: This app uses a ToggleButton to switch the background color of the activity between black and white.
+
+7. Write an android application which will display the menu with the price of the menu item. Once the final order is completed display the total bill amount to the user in Toast. Use CheckBox for creating the menu items.
+activity_main.xml
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <CheckBox
+        android:id="@+id/checkbox_item1"
+        android:text="Pizza - $10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:id="@+id/checkbox_item2"
+        android:text="Burger - $5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:text="Calculate Total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+MainActivity.java
+
+java
+Copy code
+package com.example.menuorderapp;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final CheckBox item1 = findViewById(R.id.checkbox_item1);
+        final CheckBox item2 = findViewById(R.id.checkbox_item2);
+        Button submitButton = findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int total = 0;
+                if (item1.isChecked()) total += 10;
+                if (item2.isChecked()) total += 5;
+                
+                Toast.makeText(MainActivity.this, "Total Bill: $" + total, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+Explanation: The app displays a menu with items and prices using CheckBox. The total bill is calculated when the "Calculate Total" button is pressed and displayed in a Toast.
+
+8. Write an android application for rating a movie on the scale of 1 to 5. Display the result in TextView.
+activity_main.xml
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/ratingText"
+        android:text="Rating: 0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+MainActivity.java
+
+java
+Copy code
+package com.example.movieratingapp;
+
+import android.os.Bundle;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        final TextView ratingText = findViewById(R.id.ratingText);
+
+        ratingBar.setOnRatingBarChangeListener((ratingBar1, rating, fromUser) -> {
+            ratingText.setText("Rating: " + rating);
+        });
+    }
+}
+Explanation: This app uses a RatingBar for users to rate a movie. The rating is updated in the TextView when the user changes the rating.
+
+9. Write an android application using Spinner for selecting the Cricket Team Players from the given list. Display the name of the Cricketer in Toast.
+activity_main.xml
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Spinner
+        android:id="@+id/playerSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+MainActivity.java
+
+java
+Copy code
+package com.example.spinnerapp;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Spinner playerSpinner = findViewById(R.id.playerSpinner);
+        String[] players = {"Virat Kohli", "Rohit Sharma", "MS Dhoni", "Hardik Pandya"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, players);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        playerSpinner.setAdapter(adapter);
+
+        playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedPlayer = (String) parentView.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, "Selected Player: " + selectedPlayer, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+    }
+}
+Explanation: This app uses a Spinner to select a cricket player from a list. The selected player's name is displayed in a Toast.
+
+10. Write an android application which will demonstrate the use of ImageButton.
+activity_main.xml
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Image Button" />
+</LinearLayout>
+MainActivity.java
+
+java
+Copy code
+package com.example.imagebuttonapp;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ImageButton imageButton = findViewById(R.id.imageButton);
+
+        imageButton.setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "Image Button Clicked", Toast.LENGTH_SHORT).show();
+        });
+    }
+}
