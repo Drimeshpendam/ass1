@@ -1,0 +1,788 @@
+1. Write an android application which will allow users to navigate from one activity to another activity. The first Activity will ask the user to enter the name and the Second activity will display the name in TextView which was entered in the first activity.
+FirstActivity.java:
+
+java
+Copy code
+package com.example.navigationapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class FirstActivity extends AppCompatActivity {
+
+    EditText nameEditText;
+    Button sendButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_first);
+
+        nameEditText = findViewById(R.id.nameEditText);
+        sendButton = findViewById(R.id.sendButton);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameEditText.getText().toString();
+                Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
+                intent.putExtra("userName", name);
+                startActivity(intent);
+            }
+        });
+    }
+}
+SecondActivity.java:
+
+java
+Copy code
+package com.example.navigationapp;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SecondActivity extends AppCompatActivity {
+
+    TextView displayTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        displayTextView = findViewById(R.id.displayTextView);
+
+        String userName = getIntent().getStringExtra("userName");
+        displayTextView.setText("Hello, " + userName);
+    }
+}
+activity_first.xml:
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your name" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send" />
+</LinearLayout>
+activity_second.xml:
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/displayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello, "
+        android:textSize="18sp" />
+</LinearLayout>
+2. Write an android application that asks the user to enter the URL, and after clicking the button, the URL link should be opened in the web browser in an emulator.
+MainActivity.java:
+
+java
+Copy code
+package com.example.openurlapp;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText urlEditText;
+    Button openButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        urlEditText = findViewById(R.id.urlEditText);
+        openButton = findViewById(R.id.openButton);
+
+        openButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = urlEditText.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+    }
+}
+activity_main.xml:
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/urlEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter URL" />
+
+    <Button
+        android:id="@+id/openButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open URL" />
+</LinearLayout>
+3. Write an android application that will demonstrate the use of BaseAdapter and ArrayAdapter.
+BaseAdapterExample.java:
+
+java
+Copy code
+package com.example.adapterexample;
+
+import android.os.Bundle;
+import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class BaseAdapterExample extends AppCompatActivity {
+
+    ListView listView;
+    String[] fruits = {"Apple", "Banana", "Cherry", "Date", "Elderberry"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        listView = findViewById(R.id.listView);
+        CustomAdapter customAdapter = new CustomAdapter(this, fruits);
+        listView.setAdapter(customAdapter);
+    }
+}
+CustomAdapter.java (BaseAdapter implementation):
+
+java
+Copy code
+package com.example.adapterexample;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+public class CustomAdapter extends BaseAdapter {
+
+    Context context;
+    String[] fruits;
+
+    public CustomAdapter(Context context, String[] fruits) {
+        this.context = context;
+        this.fruits = fruits;
+    }
+
+    @Override
+    public int getCount() {
+        return fruits.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return fruits[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        TextView textView = new TextView(context);
+        textView.setText(fruits[position]);
+        return textView;
+    }
+}
+activity_main.xml:
+
+xml
+Copy code
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+4. Write an android application for Gallery using adapters.
+GalleryActivity.java:
+
+java
+Copy code
+package com.example.galleryapp;
+
+import android.os.Bundle;
+import android.widget.Gallery;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class GalleryActivity extends AppCompatActivity {
+
+    Gallery gallery;
+    Integer[] imageIds = {R.drawable.image1, R.drawable.image2, R.drawable.image3};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_gallery);
+
+        gallery = findViewById(R.id.gallery);
+        GalleryAdapter galleryAdapter = new GalleryAdapter(this, imageIds);
+        gallery.setAdapter(galleryAdapter);
+    }
+}
+GalleryAdapter.java (Custom adapter for Gallery):
+
+java
+Copy code
+package com.example.galleryapp;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.BaseAdapter;
+
+public class GalleryAdapter extends BaseAdapter {
+
+    Context context;
+    Integer[] imageIds;
+
+    public GalleryAdapter(Context context, Integer[] imageIds) {
+        this.context = context;
+        this.imageIds = imageIds;
+    }
+
+    @Override
+    public int getCount() {
+        return imageIds.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return imageIds[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(imageIds[position]);
+        imageView.setLayoutParams(new Gallery.LayoutParams(200, 200));
+        return imageView;
+    }
+}
+activity_gallery.xml:
+
+xml
+Copy code
+<Gallery xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gallery"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+5. Write an application demonstrating the use of Android Session Management.
+SessionManager.java:
+
+java
+Copy code
+package com.example.sessionmanagement;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public class SessionManager {
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    public SessionManager(Context context) {
+        sharedPreferences = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+    }
+
+    public void createLoginSession(String userName) {
+        editor.putString("userName", userName);
+        editor.commit();
+    }
+
+    public String getUserName() {
+        return sharedPreferences.getString("userName", null);
+    }
+
+    public void logout() {
+        editor.clear();
+        editor.commit();
+    }
+}
+MainActivity.java:
+
+java
+Copy code
+package com.example.sessionmanagement;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    SessionManager sessionManager;
+    EditText userNameEditText;
+    TextView userNameTextView;
+    Button loginButton, logoutButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        sessionManager = new SessionManager(this);
+
+        userNameEditText = findViewById(R.id.userNameEditText);
+        userNameTextView = findViewById(R.id.userNameTextView);
+        loginButton = findViewById(R.id.loginButton);
+        logoutButton = findViewById(R.id.logoutButton);
+
+        if (sessionManager.getUserName() != null) {
+            userNameTextView.setText("Welcome, " + sessionManager.getUserName());
+            loginButton.setVisibility(View.GONE);
+        }
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userName = userNameEditText.getText().toString();
+                sessionManager.createLoginSession(userName);
+                userNameTextView.setText("Welcome, " + userName);
+                loginButton.setVisibility(View.GONE);
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sessionManager.logout();
+                userNameTextView.setText("Please login");
+                loginButton.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+}
+
+
+6. Write an android application which will create three fragments in a single activity.
+MainActivity.java:
+
+java
+Copy code
+package com.example.fragmentexample;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Adding fragments
+        transaction.add(R.id.fragment_container1, new FragmentOne(), "FragmentOne");
+        transaction.add(R.id.fragment_container2, new FragmentTwo(), "FragmentTwo");
+        transaction.add(R.id.fragment_container3, new FragmentThree(), "FragmentThree");
+
+        // Commit the transaction
+        transaction.commit();
+    }
+}
+FragmentOne.java:
+
+java
+Copy code
+package com.example.fragmentexample;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+
+public class FragmentOne extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_one, container, false);
+    }
+}
+FragmentTwo.java:
+
+java
+Copy code
+package com.example.fragmentexample;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+
+public class FragmentTwo extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_two, container, false);
+    }
+}
+FragmentThree.java:
+
+java
+Copy code
+package com.example.fragmentexample;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+
+public class FragmentThree extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_three, container, false);
+    }
+}
+activity_main.xml:
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fragment_container1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>
+7. Write an android application for Fragment Activity Life Cycle.
+MainActivity.java:
+
+java
+Copy code
+package com.example.fragmentlifecycle;
+
+import android.os.Bundle;
+import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "FragmentLifecycle";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "MainActivity onCreate()");
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, new FragmentLifecycleExample());
+        transaction.commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "MainActivity onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "MainActivity onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "MainActivity onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "MainActivity onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "MainActivity onDestroy()");
+    }
+}
+FragmentLifecycleExample.java:
+
+java
+Copy code
+package com.example.fragmentlifecycle;
+
+import android.os.Bundle;
+import android.util.Log;
+import androidx.fragment.app.Fragment;
+
+public class FragmentLifecycleExample extends Fragment {
+
+    private static final String TAG = "FragmentLifecycle";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "Fragment onCreate()");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "Fragment onStart()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "Fragment onResume()");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "Fragment onPause()");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "Fragment onStop()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "Fragment onDestroy()");
+    }
+}
+8. Write an android application that will look like WhatsApp Application using Fragment.
+MainActivity.java:
+
+java
+Copy code
+package com.example.whatsappclone;
+
+import android.os.Bundle;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, new WhatsAppFragment());
+        transaction.commit();
+    }
+}
+WhatsAppFragment.java:
+
+java
+Copy code
+package com.example.whatsappclone;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+
+public class WhatsAppFragment extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_whatsapp, container, false);
+    }
+}
+fragment_whatsapp.xml:
+
+xml
+Copy code
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WhatsApp Interface"
+        android:textSize="20sp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+9. Write an android application that will parse XML data.
+XMLParser.java:
+
+java
+Copy code
+package com.example.xmlparser;
+
+import android.util.Xml;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public class XMLParser {
+
+    public List<String> parse(InputStream inputStream) {
+        List<String> items = new ArrayList<>();
+        XmlPullParser parser = Xml.newPullParser();
+
+        try {
+            parser.setInput(inputStream, "UTF-8");
+            int eventType = parser.getEventType();
+
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
+                    if ("item".equals(parser.getName())) {
+                        items.add(parser.nextText());
+                    }
+                }
+                eventType = parser.next();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return items;
+    }
+}
+10. Write an android application that will parse JSON data.
+JSONParser.java:
+
+java
+Copy code
+package com.example.jsonparser;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class JSONParser {
+
+    public List<String> parse(String jsonData) {
+        List<String> items = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(jsonData);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                items.add(jsonObject.getString("name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return items;
+    }
+}
+MainActivity.java (example of calling JSONParser):
+
+java
+Copy code
+package com.example.jsonparser;
+
+import android.os.Bundle;
+import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    ListView listView;
+    String jsonData = "[{\"name\":\"Item 1\"}, {\"name\":\"Item 2\"}, {\"name\":\"Item 3\"}]";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        JSONParser parser = new JSONParser();
+        List<String> items = parser.parse(jsonData);
+
+        listView = findViewById(R.id.listView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
+    }
+}
